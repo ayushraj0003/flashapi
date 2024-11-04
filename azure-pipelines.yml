@@ -1,0 +1,29 @@
+trigger:
+  - main
+
+variables:
+  vmImage: 'ubuntu-latest'
+  
+jobs:
+- job: BuildAndDeploy
+  pool:
+    vmImage: $(vmImage)
+  
+  steps:
+  - task: UsePythonVersion@0
+    inputs:
+      versionSpec: '3.9'
+      addToPath: true
+      
+  - script: |
+      pip install -r requirements.txt
+    displayName: 'Install dependencies'
+        
+  - task: AzureWebApp@1
+    inputs:
+      azureSubscription: 'Your Azure Service Connection'
+      appName: 'your-app-name'
+      appType: 'webApp'
+      deployToSlotOrASE: true
+      resourceGroupName: 'your-resource-group'
+      slotName: 'production'

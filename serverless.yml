@@ -1,0 +1,13 @@
+service: image-similarity-api
+
+provider:
+  name: aws
+  runtime: python3.9
+
+functions:
+  app:
+    handler: app.app
+    events:
+      - http:
+          path: /match
+          method: post
